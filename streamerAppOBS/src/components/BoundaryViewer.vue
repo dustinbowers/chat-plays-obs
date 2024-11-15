@@ -185,7 +185,7 @@ const loadPreviewScreenshot = async () => {
                 <FontAwesomeIcon icon="download"></FontAwesomeIcon>
             </button>
             <FontAwesomeIcon class="ml-1 text-gray-600 text-xl" icon="question-circle"
-                v-tooltip="'Select your primary screen source to help line up your boundaries'">
+                v-tooltip="'Load a screenshot of your primary screen source to help line up boundaries'">
             </FontAwesomeIcon>
         </div>
         <div class="flex justify-center">

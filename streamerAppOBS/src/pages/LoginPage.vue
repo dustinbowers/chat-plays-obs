@@ -2,17 +2,25 @@
 import { OBSConnectionStatus, useStatusStore } from '../store/statusStore';
 import { useConfigStore } from '../store/configStore';
 import { useAppStore } from '../store/appStore';
-import { computed, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
-import Spinner from '../components/Spinner.vue';
-import { useProxyWebSocket } from '../composables/useProxyWebSocket';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import { useProxyWebSocket } from '../composables/useProxyWebSocket';
+import { useOBSWebSocket } from '../composables/useOBSWebSocket';
 
 const configStore = useConfigStore();
 const statusStore = useStatusStore();
 const appStore = useAppStore();
-const proxyWebSocket = useProxyWebSocket();
 const router = useRouter();
+
+const obsWebSocket = useOBSWebSocket();
+const proxyWebSocket = useProxyWebSocket();
+
+const isConnecting = ref(false);
+
+onMounted(() => {
+    isConnecting.value = false;
+})
 
 async function connect() {
     console.log("LoginPage: connect()");
@@ -21,26 +29,17 @@ async function connect() {
         configStore.saveLoginToLocalStorage();
         console.log("\tsaving login details to localStorage...");
 
+        isConnecting.value = true;
+        setTimeout(() => {
+            isConnecting.value = false;
+        }, 3000);
         appStore.connect();
 
     } catch (e) {
+        isConnecting.value = false;
         console.error("\terror caught: ", e);
     }
-
 }
-
-const isConnecting = computed(() => {
-    const obsConnecting = statusStore.obsConnectionStatus == OBSConnectionStatus.Connecting;
-    let proxyConnecting = false;
-
-    if (proxyWebSocket.socket) {
-        const s = proxyWebSocket.socket as WebSocket;
-        if (s.readyState == WebSocket.CONNECTING) {
-            proxyConnecting = true;
-        }
-    }
-    return obsConnecting || proxyConnecting;
-});
 
 watch(statusStore, (statusStore) => {
     if (statusStore.isObsConnected && statusStore.isProxyConnected) {
@@ -115,11 +114,10 @@ watch(statusStore, (statusStore) => {
                     <!-- v-if="!statusStore.isProxyConnected && !statusStore.isObsConnected" -->
                     <button type="button" @click="connect"
                         class="w-full py-2 font-semibold text-white bg-blue-600 rounded 
-                    hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition active:scale-[.95]"
-                        :disabled="statusStore.isProxyConnected || statusStore.isObsConnected">
+                    hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 transition active:scale-[.95]" :disabled="isConnecting">
                         <div v-if="isConnecting">
-                            <Spinner v-if="isConnecting"></Spinner>
-                            Connecting...
+                            <FontAwesomeIcon icon="spinner" class="fa-spin mr-2"></FontAwesomeIcon>
+                            Connecting
                         </div>
                         <div v-else>
                             <span class="mr-2">Connect</span>
