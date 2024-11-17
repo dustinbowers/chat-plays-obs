@@ -51,8 +51,7 @@ ${description}`;
                             <label class="mb-1 text-sm font-medium text-gray-700">
                                 Title:
                             </label>
-                            <input v-model="item.info_title" type="text"
-                                placeholder="Enter your OBS WebSocket Password" />
+                            <input v-model="item.info_title" type="text" placeholder="Enter the title" />
                         </div>
 
                         <!-- Info Card Description Textarea -->
@@ -63,9 +62,9 @@ ${description}`;
                         </div>
                         <div class="flex flex-col justify-center items-center">
 
-                        <div class="mb-2 mt-4">
-                            Info Card Preview:
-                        </div>
+                            <div class="mb-2 mt-4">
+                                Info Card Preview:
+                            </div>
                             <div v-html="renderMarkdown(item.info_title || '', item.info_description || '')"
                                 class="ml-4 w-64 p-4 bg-white border bg-gray-100 border-gray-300 rounded-lg shadow-xl markdown-content prose prose-sm max-w-none">
                             </div>
