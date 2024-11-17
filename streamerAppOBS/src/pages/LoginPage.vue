@@ -5,16 +5,11 @@ import { useAppStore } from '../store/appStore';
 import { onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
-import { useProxyWebSocket } from '../composables/useProxyWebSocket';
-import { useOBSWebSocket } from '../composables/useOBSWebSocket';
 
 const configStore = useConfigStore();
 const statusStore = useStatusStore();
 const appStore = useAppStore();
 const router = useRouter();
-
-const obsWebSocket = useOBSWebSocket();
-const proxyWebSocket = useProxyWebSocket();
 
 const isConnecting = ref(false);
 

@@ -133,6 +133,9 @@ export const useAppStore = defineStore({
 
                 // Find the associated boundary
                 const boundaryKey = this.configStore.sourceToBoundaryMap[transformRequest.name];
+                if (boundaryKey == "locked") {
+                    return;
+                }
                 if (boundaryKey != "none") {
                     const boundary = this.configStore.bounds[boundaryKey];
 
