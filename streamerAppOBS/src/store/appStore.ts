@@ -133,13 +133,15 @@ export const useAppStore = defineStore({
 
                 // Find the associated boundary
                 const boundaryKey = this.configStore.sourceToBoundaryMap[transformRequest.name];
-                const boundary = this.configStore.bounds[boundaryKey];
+                if (boundaryKey != "none") {
+                    const boundary = this.configStore.bounds[boundaryKey];
 
-                // Clamp the new position within the associated boundary
-                let newX = transformRequest.x;
-                let newY = transformRequest.y;
-                newX = Math.max(boundary.left, Math.min(newX, boundary.right));
-                newY = Math.max(boundary.top, Math.min(newY, boundary.bottom));
+                    // Clamp the new position within the associated boundary
+                    let newX = transformRequest.x;
+                    let newY = transformRequest.y;
+                    newX = Math.max(boundary.left, Math.min(newX, boundary.right));
+                    newY = Math.max(boundary.top, Math.min(newY, boundary.bottom));
+                }
 
                 // Move the specified scene item 
                 await this.obsWebSocket.setSceneItemTransform(

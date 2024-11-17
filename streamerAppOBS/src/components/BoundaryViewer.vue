@@ -26,6 +26,8 @@ const calculateBoundaryStyle = (boundary: Boundary) => {
     return {
         left: `${Math.max(0, boundary.left * previewWidth)}px`,
         top: `${Math.max(0, boundary.top * previewHeight.value)}px`,
+        // right: `${Math.max(0, (1 - boundary.right) * previewWidth)}px`,
+        // bottom: `${Math.max(0, (1 - boundary.bottom) * previewHeight.value)}px`,
         width: `${Math.max(0, (boundary.right - boundary.left) * previewWidth)}px`,
         height: `${Math.max(0, (boundary.bottom - boundary.top) * previewHeight.value)}px`,
     };
