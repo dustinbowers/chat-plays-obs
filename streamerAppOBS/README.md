@@ -2,4 +2,4 @@
 
 _Now in OBS!_
 
-NOTE: Still very much in progress
+This project has been merged into https://github.com/maitisse/streamerTwitchJam/
